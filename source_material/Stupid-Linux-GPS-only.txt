@@ -1,0 +1,48 @@
+GPS Mode
+
+
+Terminal 1:
+
+source /opt/ros/jazzy/setup.bash
+export RMW_IMPLEMENTATION=rmw_fastrtps_cpp
+ros2 run mavros mavros_node --ros-args -p fcu_url:="/dev/ttyS0:921600" -p local_position.tf.send:=true -p local_position.tf.frame_id:="odom" -p local_position.tf.child_frame_id:="base_link" -p gcs_url:="udp-b://@"
+
+
+Terminal 2:
+
+sudo chmod 666 /dev/ttyUSB0
+source /opt/ros/jazzy/setup.bash
+export RMW_IMPLEMENTATION=rmw_fastrtps_cpp
+ros2 launch rplidar_ros rplidar.launch.py
+
+
+Terminal 3:
+
+source /opt/ros/jazzy/setup.bash
+export RMW_IMPLEMENTATION=rmw_fastrtps_cpp
+ros2 run tf2_ros static_transform_publisher --x 0 --y 0 --z 0 --yaw 0 --pitch 0 --roll 0 --frame-id base_link --child-frame-id laser
+
+
+Terminal 4:
+
+source /opt/ros/jazzy/setup.bash
+export RMW_IMPLEMENTATION=rmw_fastrtps_cpp
+ros2 launch slam_toolbox online_async_launch.py slam_params_file:=/home/drone/mapper_params_online_async_gps.yaml
+
+
+Terminal 5:
+
+source /opt/ros/jazzy/setup.bash
+export RMW_IMPLEMENTATION=rmw_fastrtps_cpp
+ros2 launch nav2_bringup navigation_launch.py params_file:=/home/drone/nav2_params_gps.yaml use_sim_time:=false
+
+Terminal 6:
+
+source /opt/ros/jazzy/setup.bash
+export RMW_IMPLEMENTATION=rmw_fastrtps_cpp
+ros2 run foxglove_bridge foxglove_bridge &
+python3 ~/odom_to_tf.py &
+python3 ~/goal_relay.py &
+python3 ~/laser_safety_stop.py &
+python3 ~/cmd_vel_mux.py &
+wait

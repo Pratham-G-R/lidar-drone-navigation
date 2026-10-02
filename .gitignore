@@ -1,0 +1,16 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+*.egg-info/
+build/
+install/
+log/
+.venv/
+config/generated/
+data/raw/*
+!data/raw/README.md
+data/maps/*
+!data/maps/README.md
+*.db3
+*.mcap
+.DS_Store

@@ -1,0 +1,94 @@
+[
+  {
+    "file": "assets/photos/IMG-20261001-WA0036.jpg",
+    "width_px": 1280,
+    "height_px": 963
+  },
+  {
+    "file": "assets/photos/IMG-20261001-WA0035.jpg",
+    "width_px": 963,
+    "height_px": 1280
+  },
+  {
+    "file": "assets/photos/IMG-20261001-WA0039.jpg",
+    "width_px": 4096,
+    "height_px": 3072
+  },
+  {
+    "file": "assets/photos/IMG-20261001-WA0033.jpg",
+    "width_px": 4080,
+    "height_px": 3072
+  },
+  {
+    "file": "assets/photos/IMG-20261001-WA0030.jpg",
+    "width_px": 4080,
+    "height_px": 3072
+  },
+  {
+    "file": "assets/photos/IMG-20261001-WA0032.jpg",
+    "width_px": 3072,
+    "height_px": 4080
+  },
+  {
+    "file": "assets/photos/IMG-20261001-WA0041.jpg",
+    "width_px": 4080,
+    "height_px": 3072
+  },
+  {
+    "file": "assets/photos/IMG-20261001-WA0029.jpg",
+    "width_px": 3072,
+    "height_px": 4080
+  },
+  {
+    "file": "assets/photos/IMG-20261001-WA0027.jpg",
+    "width_px": 4080,
+    "height_px": 3072
+  },
+  {
+    "file": "assets/photos/IMG-20261001-WA0020.jpg",
+    "width_px": 1599,
+    "height_px": 899
+  },
+  {
+    "file": "assets/photos/IMG-20261001-WA0018.jpg",
+    "width_px": 1599,
+    "height_px": 899
+  },
+  {
+    "file": "assets/photos/IMG-20261001-WA0019.jpg",
+    "width_px": 1920,
+    "height_px": 1080
+  },
+  {
+    "file": "assets/photos/IMG-20261001-WA0028.jpg",
+    "width_px": 4096,
+    "height_px": 3072
+  },
+  {
+    "file": "assets/videos/VID-20261001-WA0037.mp4",
+    "duration_s": 28.091556,
+    "width_px": 1280,
+    "height_px": 720,
+    "frame_rate": "948375/31603",
+    "video_codec": "h264",
+    "audio_stream_present": false
+  },
+  {
+    "file": "assets/videos/VID-20261001-WA0031.mp4",
+    "duration_s": 55.698896,
+    "width_px": 1280,
+    "height_px": 720,
+    "frame_rate": "47850000/1670401",
+    "video_codec": "h264",
+    "audio_stream_present": true
+  },
+  {
+    "file": "assets/videos/VID-20261001-WA0038.mp4",
+    "duration_s": 38.0335,
+    "width_px": 1280,
+    "height_px": 720,
+    "frame_rate": "1880000/76067",
+    "video_codec": "h264",
+    "audio_stream_present": false
+  }
+]

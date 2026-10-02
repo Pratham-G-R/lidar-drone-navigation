@@ -1,0 +1,160 @@
+TEXT EXTRACTED FROM THE SUPPLIED DRAFT; formatting and images omitted.
+
+Real-Time Dynamic Occupancy Grids Based System for Macro and Micro UAV Path Planning
+Authors: Rochak Srivastav1, Pratham2, Tanish Deshmukh3, Vemula Eshwar Ranga4, Arijit Dey5, Prof. Santosha K. Dwivedy6
+School of Electrical Engineering
+Manipal Institute of Technology
+Manipal – 576104, Karnataka, India1
+Dept of Robotics, RCOEM, Nagpur, Maharashtra2
+Dept of Electronics, Vellore Institute of Technology3
+Technology Innovation Hub, 
+Indian Institute of Technology Guwahati
+Guwahati - 781039, Assam, India4
+Department of Mechanical Engineering, IIT Guwahati5
+Abstract. This paper shows the use of LiDAR Technology in creating a dynamic 2D occupancy grid, then with the help of the map, planning a path through free space, avoiding obstacles, and communicating this path directly to a drone autopilot. Utilizing a lightweight onboard computer, the architecture processes real-time 2D laser scan data to generate the occupancy grids. The grid provides the drone real time spatial awareness and allows for safe autonomous navigation and path optimization. With the help of global and local cost maps, the system ensures both macro level global path planning, including waypoint navigation and shortest path, and micro level local obstacle avoidance. If hazards obstruct the pre-determined routes, the system seamlessly recalculates its trajectory and issues precise velocity commands to resume the original mission. The foundational components of this technology are highly adaptable across industries, enabling developers to modify the system to their specific application requirements. This foundation is also applicable to a wide range of autonomous aerial tasks such as surveillance, mapping, reconnaissance and complex industrial applications. 
+Keywords: LiDAR, Autonomous Navigation, SLAM, Obstacle Avoidance
+Introduction to the setup
+The system described utilizes a dual-processor model: a Flight Controller running the open source ArduPilot autopilot stack. Ardupilot handles the drone’s flight stability, state estimation and attitude control. We communicate to the autopilot with the help of a Raspberry Pi 4 Model B companion computer. The board is running Ros 2 Jazzy for high level perception, spatial mapping and navigation. The system uses a 2D LiDAR for perceiving its environment. The software pipeline integrates MAVROS telemetry bridging for our ROS2 software to communicate with the flight controller through MAVLink protocol and receive odometry and GPS Data, RPLidar A1 hardware drivers to provide 2D range measurements, custom co-ordinate frame translation scripts, SLAM Toolbox graph based mapping, Nav2 costmap/path planning, and a WebSocket based foxglove interface for visualization. 
+System Architecture
+Hardware Architecture
+The hardware of the project consists of:
+Pixhawk 2.4.8 flight controller
+Raspberry Pi 4 Model B
+RPLidar A1
+Drone platform
+UART connection between Raspberry Pi and Pixhawk
+USB connection between LiDAR and Raspberry Pi
+The Pixhawk flight controller is an open-source 32-bit flight controller. It runs an advanced autopilot stack - ArduPilot to deliver stable manual & autonomous flight capabilities. It is responsible for flight stability, state estimation, attitude control & piloting the drone according to the instructions given by the Raspberry Pi via MAVROS. 
+The Raspberry Pi 4 Model B is a high performance single-board computer. It features a 1.5 GHz 64-bit quad-core processor with 4 GB RAM. With Ubuntu Server operating system, ROS 2 Jazzy runs onboard the drone, enabling high level perception and autonomous navigation. It is responsible for processing LiDAR range data, generating real time spatial maps via SLAM, computing obstacle free paths and sending the trajectory commands to the Pixhawk flight controller. 
+Software Architecture
+The software consists of:
+MAVROS
+RPLidar ROS driver
+TF2 / coordinate transformations
+SLAM Toolbox
+Nav2
+Safety Nodes
+Foxglove Bridge
+MAVROS: Acts as the primary serial communication bridge between the Raspberry Pi and the Pixhawk. Ardupilot uses MAVLink protocol for telemetry data communication across its peripherals. MAVROS provides a ROS interface to MAVLink compatible autopilots, enabling computers running ROS to communicate back and forth with them. It decodes incoming telemetry packets and broadcasts standard ROS 2 topics. 
+
+RPLidar ROS Driver: This hardware opens the serial interface of the board and launches the native ROS 2 driver node for the RPLidar A1 published by SLAMTEC. It converts raw laser reflections into standardized LaserScan messages on the /scan topic, providing 2D range observations required for obstacle detection and SLAM. 
+
+Static Transform Publisher (TF2): A combination of static and synamic transform publishers manage the continuous relationships between the globally consistent local mapping frame (map), the drone’s locally continuous odometry frame (odom), the physical drone frame (base_link), and the LiDAR sensor data frame (laser). This transformation is crucial for placing the incoming sensor observations into the drone’s body frame, enabling ROS 2 TF2 to transform the LiDAR observations consistently between sensor, vehicle, odometry and map frames. 
+
+SLAM Toolbox: Executes Ceres-solver graph based 2D SLAM. It correlates the 2D /scan range observations from the LiDAR against the spatial transforms (odom to base_link) to generate a real time occupancy grid map while concurrently calculating dynamic drift corrections. 
+
+Nav2 Navigation Stack: This comprehensive planning system processes the map data generated to make global and local costmaps around the obstacles. It keeps a safety buffer around obstacles , and computes collision free trajectories toward designated target positions. 
+
+Safety Nodes: A dedicated set of independent safety nodes monitor the LiDAR scan data for immediate proximity hazards, and issue emergency motion overrides, temporarily halting the drone, making sure navigation is safe before moving on with the path.
+
+Foxglove Bridge: Opens a WebSocket gateway for remote Foxglove Studio UI monitoring. It displays the control interface, map visualization data and navigation goals from the onboard ROS 2 network and the remote Foxglove Studio UI. 
+
+odom_to_tf.py: The odom_to_tf.py script subscribes to /mavros/local_position/odom and publishes the dynamic odom → base_link transformation. The script preserves the original sensor timestamp using msg.header.stamp. This timestamp preservation is important for maintaining valid TF lookups within SLAM Toolbox.
+
+goal_relay.py: The goal relay receives navigation goals from the legacy /move_base_simple/goal topic and forwards them to Nav2 through /goal_pose.
+
+laser_safety_stop.py: The laser safety node monitors /scan measurements for proximity hazards and generates emergency control overrides.
+
+cmd_vel_mux.py: The velocity multiplexer combines control commands while giving priority to safety-stop commands over autonomous navigation outputs.
+Methodology
+The complete data pipeline begins with the flight controller odometry and LiDAR scans and terminates in the mapping, navigation and visualization systems. 
+ArduPilot odometry via MAVROS
+The Pixhawk FCU running ArduPilot provides state information generated by the flight controller’s Extended Kalman Filter (EKF3), through MAVLink to MAVROS. This telemetry stream provides estimates of the drone’s planar position, orientation, and linear velocity. 
+LiDAR Based Environmental Perception
+The foundation of the system’s spatial awareness relies on continuous environmental scanning using the RPLidar A1. The LiDAR uses laser triangulation to estimate the distance to the surrounding surfaces. The core of RPLidar A1 runs clockwise to perform a 360 degree omnidirectional laser range scanning for its surrounding environment and then generate an outline map for the environment. The system measures distance data at more than 8000 points per second.
+ 
+The RPLidar ROS driver converts these raw hardware measurements into standardized sensor_msg/msg/LaserScan data on the /scan topic. These scans provide a continuous 2D representation of the drone’s immediate surroundings, forming the raw input that will be needed for both mapping and obstacle avoidance. 
+Coordinate Frame Transformation
+To utilize the LiDAR data effectively, the system must understand where the sensor is physically located relative to the world. This is achieved through a strict Coordinate Frame Transformation chain manages by ROS 2 TF2. The transform tree contains four primary frames:
+
+Map → Odom → Base_link → Laser
+
+The relationships between these frames are maintained simultaneously:
+Base_link → Laser: A static transform representing the rigid, physical LiDAR mounting offset from the drone’s center of mass. 
+Odom → Base_link: A dynamic transform provided by the flight controller’s vehicle odometry, representing the drone’s position and motion relative to the odometry frame.
+Map → Odom: A dynamic correction transform calculated by the SLAM algorithm, which accounts for odometry drift over time. 
+SLAM and Occupancy grid Generation
+The central mapping process is governed by SLAM Toolbox, which employs a graph-based Simultaneous Localization and Mapping algorithm. As the drone navigates, SLAM ingests the 2D LiDAR scans (/scan) and pairs them with the drone’s estimated motion (odom → base_link). The output of this process is a 2D occupancy grid published on the /map topic. The grid divides the environment into discrete cells, assigning each cell a value, occupied, free or unknown. SLAM continuously updates this global map as new observations arrive, providing the foundational environment model for navigation. 
+Global and local Costmaps
+While the occupancy grid gives an accurate representation of free and occupied space, navigation requires an understanding of risk, and safety margins to prevent collisions. The Nav2 stack processes the SLAM map into global and local costmaps, which assign a numerical cost to travelling to specific areas along different paths. 
+Global costmap: This layer operates on the whole known environment represented by the SLAM occupancy grid. It is utilised by the planner to calculate the most cost effective route to the destination. 
+Local costmap: This layer operates in a smaller window, in close proximity of the drone. It reads the real time LiDAR data to detect newly appearing obstacles. Nav2 places these new observations directly into its local obstacle layer, so reactive collision avoidance does not require waiting for the persistent SLAM map to incorporate the obstacle.  
+In addition, another inflation layer is applied to both costmaps. This layer assigns higher navigation costs around occupied cells, creating a clearance margin that discourages the path from passing too close to obstacles.
+Path planning and obstacle avoidance
+The navigation logic tells the drone how to move through the mapped environment. The process follows this flow:
+Target Position →  Global Planner → Global Path → Local Costmap → Local Controller → Velocity Command → Ardupilot
+
+When a target destination is assigned, the Nav2 planner_server evaluates the Global Costmap to determine an optimal collision free route. 
+As the drone begins to move along this route, the controller_server (DWBLocalPlanner) attempts to follow the global path. However, if the LiDAR detects an unexpected hazard, the Local costmap is instantly updated with high cost values. The local controller recogonizes this current trajectory is a high cost area, exits the obstacle area, and computes a new, safe trajectory to navigate the obstacle. 
+Communication of velocity commands to the autopilot
+The final stage is translating the calculated trajectories into motion. Nav2 generates velocity commands (geometry_msgs/msg/Twist) that tells the required linear and angular speeds required to follow the safe path. The Raspberry Pi then sends these velocity commands over the connection to the Pixhawk flight controller via MAVROS.  The ArduPilot then executes the attitude adjustments and motor control required to meet the velocity targets assigned to it. 
+
+System Implementation
+Computing and Communication Configuration
+The architecture was implemented on a Raspberry Pi 4 Model B running Ubuntu Server OS and ROS 2 Jazzy. Serial telemetry connection between the Raspberry Pi and the Ardupilot FC was established via a dedicated UART serial interface (/dev/ttyS0) operating at a high baud rate of 9,21,600 bps. The RPLidar A1 connects to the Raspberry Pi via a USB serial connection. 
+4.2 ROS 2 Nodes and Topics
+The implementation relies on several key ROS 2 topics functioning in real-time:
+
+/scan: Streams raw 2D laser range data from the RPLidar driver.
+/mavros/local_position/odom: Provides the baseline vehicle odometry from the flight controller.
+/map: The live occupancy grid generated by SLAM Toolbox.
+/global_costmap/costmap & /local_costmap/costmap: The inflated hazard maps used by Nav2.
+/goal_pose: The target destination input for the navigation stack.
+/plan: The calculated global trajectory visualization.
+4.3 Supporting and Safety Nodes
+To bridge any software gaps and to ensure operational safety, these custom Python scripts were implemented:
+odom_to_tf.py: A specialized broadcaster that translates the /mavros/local_position/odom messages into dynamic odom → base_link TF broadcasts, preserving the original hardware timestamps to prevent timing synchronization errors in SLAM.
+goal_relay.py: A middleware script that intercepts legacy navigation goals published by user interfaces (e.g., /move_base_simple/goal from Foxglove) and relays them directly to Nav2’s active /goal_pose listener.
+laser_safety_stop.py: An independent safety node that continuously monitors the raw /scan data for extreme proximity hazards, capable of triggering an immediate halt independent of the Nav2 stack.
+cmd_vel_mux.py: A velocity multiplexer that manages competing motion commands, ensuring that emergency override commands from the safety stop node strictly supersede autonomous navigation commands.
+Experimental Setup and Validation
+Pre-Flight Configuration
+Prior to field mapping, ArduPilot telemetry stream parameters were configured via Mission Planner to ensure local position data was supplied to the Raspberry Pi at a minimum of 10 Hz (SR2_POSITION = 10). The flight controller's Extended Kalman Filter (EKF) state was verified, requiring a valid 3D GPS lock with a Horizontal Dilution of Precision (HDOP) of ≤ 1. Finally, the integrity of the transform chain was validated by ensuring continuous propagation from the map to laser frames without timeout errors.
+Test Environment
+Field testing was conducted in an outdoor environment featuring structural boundaries and open spaces. The system operated under GPS-assisted flight conditions. The primary objectives were to validate the continuous generation of the occupancy grid, confirm the accurate inflation of costmaps around physical structures, and verify that the system could successfully compute a collision-free global path to a designated waypoint.
+Evaluation Criteria
+System success was defined by the following criteria:
+
+Successful initialization of the SLAM occupancy grid with real-time updates from LiDAR observations.
+Proper rendering of global and local costmaps, demonstrating accurate inflation buffers around physical obstacles.
+Successful receipt of a navigation goal via the Foxglove interface, resulting in the calculation and visualization of a valid, collision-free global path (/plan).
+Results
+Occupancy Grid Generation
+The SLAM Toolbox successfully generated real-time 2D maps of the test environment. The system accurately defined structural boundaries, cleanly separating unoccupied space, solid obstacles, and unexplored regions on the /map topic, validating the integrity of the LiDAR-to-SLAM pipeline.
+
+Costmap Generation
+The Nav2 stack successfully translated the occupancy grid into dual-layer costmaps. Analysis confirmed the presence of the inflation layer, visually represented as hazard buffers surrounding all detected structures. This verified that the system possessed the necessary spatial awareness to maintain safe physical stand-off distances during navigation.
+
+Path Generation
+Upon transmitting a target destination (/goal_pose) located in unoccupied space via the Foxglove UI, the NavfnPlanner successfully computed a global trajectory. The resulting path (/plan) correctly navigated around the inflated costmap boundaries, charting a direct and collision-free route from the drone's current position to the objective.
+
+Performance Analysis and Limitations
+GPS Accuracy and Drift
+The system demonstrated a notable dependency on high-quality GPS data to maintain the underlying odometry (odom → base_link). During periods where satellite HDOP degraded above approximately 1.5, position jumps in the MAVROS odometry stream were observed. These sudden shifts caused temporary scan-stacking artifacts within SLAM Toolbox, as the algorithm struggled to reconcile the jumping odometry with the stable LiDAR observations.
+
+Odometry Frequency
+Performance degradation was also observed directly relating to the frequency of the telemetry stream. If the MAVROS odometry update rate dropped below approximately 5 Hz, rapid drone yaw rotations resulted in scan-matching misalignments, particularly in open environments lacking distinct geometric features to anchor the SLAM algorithm.
+
+Alternative Configuration: GPS-Denied Operation
+While the primary architecture utilizes GPS-assisted odometry, the system is designed to accommodate GPS-denied environments (e.g., indoor flight or dense canopy). The architecture allows the MAVROS odometry source to be replaced with RF2O (Planar Laser Odometry). RF2O estimates the drone's motion purely by calculating the differences between consecutive 2D laser scans at high frequencies. By reconfiguring the coordinate frames to utilize the RF2O output, the drone can maintain spatial awareness and navigate without any reliance on satellite reception.
+Map Export and Multi-Drone Deployment
+A significant capability of the architecture is the ability to persist and share generated environments. The real-time occupancy grids created by the SLAM process can be exported and saved as static map files (.yaml and .pgm). These static maps can subsequently be loaded onto secondary drones that lack LiDAR hardware. Utilizing GPS or vision-based localization against the pre-generated costmaps, this enables a single mapping drone to chart an area, allowing a fleet of sensor-constrained drones to safely navigate the same environment later.
+
+Discussion
+The successful implementation of this dual-processor architecture highlights the viability of edge-computed autonomy on low-cost hardware. Offloading the computationally intensive tasks of spatial mapping and path planning to the Raspberry Pi allows the Pixhawk to dedicate its processing power entirely to flight stability and safety. The results demonstrate that a standard 2D LiDAR, when paired with robust SLAM and costmap algorithms, provides sufficient environmental awareness for safe navigation in planar environments. However, the observed limitations regarding GPS HDOP and odometry frequency emphasize that SLAM algorithms remain heavily reliant on stable, high-frequency state estimation. To mitigate these limitations, future extensions of the architecture could explore sensor fusion techniques, such as integrating optical flow sensors or utilizing robust Extended Kalman Filters on the companion computer to smooth the odometry stream before it reaches the mapping stack.
+
+Conclusion
+This project successfully developed and demonstrated an autonomous aerial navigation stack capable of real-time environmental perception and dynamic path planning. By integrating an ArduPilot flight controller with a ROS 2 Jazzy companion computer, the system successfully processed 2D LiDAR scans to generate accurate occupancy grids and inflated costmaps. Field testing validated the system’s ability to compute safe, collision-free trajectories toward designated targets. While the architecture is sensitive to GPS degradation, its modularity allows for the integration of laser-based odometry fallbacks and enables the export of mapped environments for multi-drone applications, providing a highly adaptable foundation for autonomous aerial operations.
+
+
+
+
+
+Fig. 1. A figure caption is always placed below the illustration. Short captions are centered, while long ones are justified. The macro button chooses the correct format automatically.
+For citations of references, square brackets and consecutive numbers should be used. The following bibliography provides a sample reference list with entries for journal articles [1], an LNCS chapter [2], a book [3], proceedings without editors [4], as well as a URL [5].
+References
+Author, F.: Article title. Journal 2(5), 99–110 (2016).
+Author, F., Author, S.: Title of a proceedings paper. In: Editor, F., Editor, S. (eds.) CONFERENCE 2016, LNCS, vol. 9999, pp. 1–13. Springer, Heidelberg (2016). 
+Author, F., Author, S., Author, T.: Book title. 2nd edn. Publisher, Location (1999).
+Author, F.: Contribution title. In: 9th International Proceedings on Proceedings, pp. 1–2. Publisher, Location (2010).
+LNCS Homepage, http://www.springer.com/lncs, last accessed 2016/11/21.
