@@ -2,7 +2,7 @@
 
 ## Validation status
 
-Offline unit checks exercise obstacle decisions, invalid scans, start-up blocking, command and safety timeouts, invalid commands, planar speed limits, clock reversal and CSV analysis. Python compilation checks syntax without importing ROS. See `VALIDATION.md` for the run performed when this repository was prepared.
+Offline unit checks exercise obstacle decisions, invalid scans, start-up blocking, command and safety timeouts, invalid commands, planar speed limits, clock reversal and CSV analysis. Python compilation checks syntax without importing ROS. See `VALIDATION.md` for the recorded test results.
 
 ROS middleware behavior, colcon installation, hardware connectivity, Nav2 lifecycle activation and flight behavior have not been verified in this environment. Passing offline tests does not establish safe flight or reproduce the original experiment.
 

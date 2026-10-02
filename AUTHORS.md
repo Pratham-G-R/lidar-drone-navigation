@@ -1,6 +1,14 @@
-# Authors and attribution
+# Authors and credits
 
-The supplied draft lists the following names, in this order:
+## Repository maintainer
+
+**Pratham** — [Pratham-G-R](https://github.com/Pratham-G-R)
+
+Contact: [GitHub profile](https://github.com/Pratham-G-R). For repository questions, open an issue.
+
+## Manuscript authors
+
+The current draft lists:
 
 1. Rochak Srivastav
 2. Pratham
@@ -9,6 +17,8 @@ The supplied draft lists the following names, in this order:
 5. Arijit Dey
 6. Prof. Santosha K. Dwivedy
 
-This is a transcription, not independent verification of authorship or contributions. The draft's numbered affiliation mapping is incomplete/ambiguous, so no author-to-affiliation mapping has been reconstructed. Confirm spelling, preferred names, author order, affiliations and contribution roles before publication.
+Author order, affiliations and individual contributions will be finalized with the team before manuscript submission. The draft's affiliation numbering is incomplete.
 
-Original notes and media are preserved as supplied. The Python implementation and repository documentation are new reconstruction work and must not be cited as the exact implementation used during the original experiments.
+## Implementation and media
+
+The archive preserves the original project notes and media. The support package is a reconstructed implementation; the original scripts and tuned configurations remain pending. Repository maintenance does not imply sole authorship of the hardware, software or research.

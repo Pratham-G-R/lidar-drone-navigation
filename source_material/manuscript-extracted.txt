@@ -1,4 +1,6 @@
-TEXT EXTRACTED FROM THE SUPPLIED DRAFT; formatting and images omitted.
+UNFINISHED MANUSCRIPT DRAFT — NOT PUBLISHED.
+Example references and template remnants require correction.
+Text extraction only; formatting and images omitted.
 
 Real-Time Dynamic Occupancy Grids Based System for Macro and Micro UAV Path Planning
 Authors: Rochak Srivastav1, Pratham2, Tanish Deshmukh3, Vemula Eshwar Ranga4, Arijit Dey5, Prof. Santosha K. Dwivedy6

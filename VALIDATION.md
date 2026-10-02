@@ -1,6 +1,6 @@
 # Validation record
 
-Prepared 2026-10-02.
+Validation record dated 2026-10-02.
 
 | Check | Outcome |
 | --- | --- |

@@ -1,99 +1,68 @@
 # LiDAR Drone Navigation
 
-**ROS 2 Jazzy · Raspberry Pi 4 · Pixhawk · RPLidar A1 · SLAM Toolbox · Nav2**
+**GPS-assisted 2D mapping and path-planning research with ROS 2 Jazzy.**
 
-A research project exploring GPS-assisted 2D occupancy mapping and planar path planning on a drone. The companion computer builds the map and computes paths while ArduPilot handles vehicle estimation and flight control.
+A Raspberry Pi processes RPLidar scans and flight-controller odometry to build an occupancy map and support Nav2 path planning. ArduPilot handles vehicle estimation and flight control.
 
-![LiDAR and Raspberry Pi mounted on the drone](assets/previews/hardware.jpg)
-
-## Project status
-
-This repository organizes the supplied project manuscript, terminal notes, 13 photographs and three videos. It also provides newly reconstructed support code and tools for collecting reproducible results. **The original Python scripts and tuned YAML files were not supplied. The new code has offline tests but has not been run on ROS hardware or flight-tested.**
-
-| Component | Available evidence / implementation |
+| Onboard hardware | Mapping visualization |
 | --- | --- |
-| Hardware integration | Photographs of LiDAR, companion computer and airframe; hardware specifications reported in manuscript |
-| Occupancy mapping and visualization | Manuscript descriptions and photographed displays |
-| Costmaps and global path planning | Reported in manuscript; map/path-like overlays visible, topic identities not independently established |
-| Flight activity | User recalls manual flight (2026-10-02); media is not evidence of autonomous execution |
-| Support nodes | New implementation in `lidar_drone/`, explicitly reconstructed |
-| Original experiment settings | Missing; generator creates reviewable templates from installed ROS defaults |
-| Quantitative results | No ROS bags, raw maps, FCU logs or measured evaluation tables supplied |
-| GPS-denied RF2O and map sharing | Proposed extensions; not implemented or validated here |
+| ![RPLidar mounted above the Raspberry Pi](assets/previews/hardware.jpg) | ![Photographed mapping display with colored overlays](assets/previews/mapping.jpg) |
 
-## What is included
+**[Watch the field-flight video · 38 seconds](assets/videos/VID-20261001-WA0038.mp4)** · [Mapping session video](assets/videos/VID-20261001-WA0031.mp4) · [Full media catalogue](docs/evidence.md)
 
-- Four ROS 2 executables: `odom_to_tf`, `goal_relay`, `laser_safety_stop`, `cmd_vel_mux`.
-- Receipt-time watchdogs and finite-value checks, with unit tests independent of ROS.
-- Config generator, support launch file, bag recording and CSV analysis tools.
-- Architecture, setup, troubleshooting, evidence, data and validation documentation.
-- All 18 original attachments, a SHA-256 source manifest, and lightweight README previews.
+The field flight is understood to have been manual, based on the project maintainer's recollection. The videos document the prototype and field work; autonomous path execution has not been established.
 
-The checked velocity output is `/lidar_drone/cmd_vel_checked`. **There is no autopilot command bridge in this reconstruction.** Publishing a Nav2 body-frame velocity directly to a world-frame MAVROS interface would be incorrect; integration requires the actual FCU configuration and validation described in [the interface guide](docs/interfaces.md).
+## Hardware
 
-## Architecture
+| Component | Role |
+| --- | --- |
+| Raspberry Pi 4 Model B | ROS 2 companion computer |
+| Pixhawk 2.4.8 with ArduPilot | State estimation and flight control |
+| RPLidar A1 over USB | 2D laser scanning |
+| Pi-to-Pixhawk UART | MAVLink telemetry through MAVROS |
+
+See [hardware details and assumptions](docs/architecture.md) for the configuration still to be confirmed.
+
+## Mapping pipeline
 
 ```mermaid
 flowchart TD
-  FC["ArduPilot / Pixhawk"] --> MAV["MAVROS odometry"]
-  MAV --> TF["odom to base_link TF"]
-  LIDAR["RPLidar /scan"] --> SLAM["SLAM Toolbox"]
-  TF --> SLAM
-  SLAM --> MAP["Occupancy map"]
-  MAP --> NAV["Nav2 costmaps and planner"]
-  LIDAR --> NAV
-  NAV --> CMD["Nav2 /cmd_vel"]
-  LIDAR --> STOP["Scan watchdog"]
-  CMD --> GATE["Command gate"]
-  STOP --> GATE
-  GATE --> OUT["Checked test topic"]
+  L["RPLidar scans"] --> S["SLAM Toolbox"]
+  M["MAVROS odometry"] --> T["TF transforms"]
+  T --> S
+  S --> O["Occupancy map"]
+  O --> N["Nav2 costmaps and planning"]
+  L --> N
+  N --> C["Command gate / test output"]
+  L --> W["Scan watchdog"]
+  W --> C
 ```
 
-The repository ends at the checked test topic. The manuscript describes a further MAVROS-to-autopilot control stage, whose implementation is missing.
+The support package provides `odom_to_tf`, `goal_relay`, `laser_safety_stop` and `cmd_vel_mux`, plus tools for configuration, recording and odometry analysis. Its velocity output ends at `/lidar_drone/cmd_vel_checked`; an autopilot command adapter is not included.
 
-## Start here
+## Current status
 
-For a review on any Python 3.10+ machine:
+The hardware and field media are documented. The Python support nodes are **reconstructed implementations**, with 14 offline unit tests; ROS integration and flight validation remain pending. Original scripts, tuned YAML, ROS bags and map exports will be added when recovered. See [validation](VALIDATION.md) and [pending work](docs/missing-inputs.md).
+
+## Get started
+
+Run the offline checks from the repository root with Python 3.10+:
 
 ```bash
 python3 -m unittest discover -s tests -v
-python3 -m compileall -q lidar_drone launch tools
 ```
 
-For the ROS machine, follow [setup and operation](docs/setup.md), starting with odometry and LiDAR inspection. Do not run the archived terminal notes verbatim: they contain an absolute home path, permissive serial permissions and two possible publishers of the same TF edge.
+For ROS 2 Jazzy, follow [setup and operation](docs/setup.md). The [interface guide](docs/interfaces.md) defines topics, transform ownership and watchdog behavior.
 
-| Directory | Contents |
+| Explore | Contents |
 | --- | --- |
-| `lidar_drone/` | Reconstructed Python package and ROS-independent gate logic |
-| `launch/`, `config/` | Support-node launch and bench defaults |
-| `tools/` | Config preparation, bag recording, odometry analysis |
-| `docs/` | Setup, architecture, interfaces, evidence, validation and missing inputs |
-| `assets/photos/`, `assets/videos/` | Original user-supplied media |
-| `assets/previews/` | Smaller, re-encoded images for documentation |
-| `source_material/` | Unmodified notes/manuscript and extracted manuscript text |
-| `data/` | Provenance manifest and schemas; no fabricated field measurements |
-| `tests/`, `.github/workflows/` | Offline regression checks and GitHub CI definition |
+| [Code](lidar_drone/) · [Configuration](config/) · [Tools](tools/) | Support nodes, bench defaults and data utilities |
+| [Data guide](docs/data.md) · [Troubleshooting](docs/validation.md) | Recording, analysis and integration checks |
+| [Media catalogue](docs/evidence.md) | Photos, videos and evidence status |
+| [Draft manuscript and notes](source_material/README.md) | Unfinished research draft and original launch notes |
 
-## Visual record
+## Team and manuscript
 
-![Photographed mapping display](assets/previews/mapping.jpg)
+Maintained by [Pratham](https://github.com/Pratham-G-R). See [authors and credits](AUTHORS.md) for the project team.
 
-The photograph records a visualization, not a calibrated map export. See [the evidence catalogue](docs/evidence.md) for all media and interpretation limits.
-
-## Documentation
-
-- [Setup and operation](docs/setup.md)
-- [Architecture and assumptions](docs/architecture.md)
-- [Topics, frames and node behavior](docs/interfaces.md)
-- [Data collection and analysis](docs/data.md)
-- [Evidence and claim status](docs/evidence.md)
-- [Validation and troubleshooting](docs/validation.md)
-- [Missing inputs from the project team](docs/missing-inputs.md)
-- [Primary technical references](docs/references.md)
-- [Publication steps](docs/github.md)
-
-## Credits and reuse
-
-The supplied draft lists Rochak Srivastav, Pratham, Tanish Deshmukh, Vemula Eshwar Ranga, Arijit Dey and Prof. Santosha K. Dwivedy. Author order, affiliations and contributions require confirmation. See [AUTHORS.md](AUTHORS.md).
-
-No open-source license has been selected for project code or media. See [LICENSE-NOTICE.md](LICENSE-NOTICE.md). Upstream ROS projects keep their own licenses. The manuscript contains unfinished template references and should not be treated as a published or citation-ready paper.
+The manuscript is an **unfinished draft**: references and template remnants still need correction. It is not a published paper. Project licensing is [pending](LICENSE-NOTICE.md).

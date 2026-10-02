@@ -3,7 +3,7 @@
   <name>lidar_drone</name>
   <version>0.1.0</version>
   <description>Reconstructed research support nodes for LiDAR UAV mapping.</description>
-  <maintainer email="maintainer@example.invalid">Project authors — contact pending</maintainer>
+  <maintainer email="233251124+Pratham-G-R@users.noreply.github.com">Pratham</maintainer>
   <license>LicenseRef-Pending-Author-Decision</license>
   <buildtool_depend>ament_python</buildtool_depend>
   <exec_depend>rclpy</exec_depend>

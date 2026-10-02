@@ -1,6 +1,6 @@
 # Architecture and assumptions
 
-## Hardware described by the manuscript
+## Hardware configuration
 
 | Item | Role | Verification status |
 | --- | --- | --- |
@@ -10,7 +10,7 @@
 | UART between Pi and FCU | MAVLink telemetry | Notes use `/dev/ttyS0:921600`; physical connector and FCU port mapping unknown |
 | Drone platform | Carries the sensor and compute stack | Photographed; dimensions, mass, propulsion and propeller sweep missing |
 
-The earlier unrelated FPV project details have not been assumed to apply to this aircraft. Wiring must be documented from this build: identify the FCU telemetry port, voltage levels, TX/RX crossing, common ground and independent regulated power. Never infer a pinout from a photograph.
+Document the wiring for this aircraft: identify the FCU telemetry port, voltage levels, TX/RX crossing, common ground and independent regulated power. Never infer a pinout from a photograph.
 
 ## Mapping and navigation
 
@@ -18,16 +18,16 @@ MAVROS exposes the FCU's locally estimated pose. A single transform broadcaster 
 
 The global SLAM map and a dynamic local obstacle layer serve different purposes. This project does not implement a probabilistic dynamic occupancy grid with explicit obstacle velocity tracking. The manuscript title's phrase “dynamic occupancy grids” refers here to maps/costmaps updated as observations arrive.
 
-Nav2 is a planar navigation framework. A UAV integration must separately handle takeoff, landing, altitude control, attitude limits, flight mode, pilot override and FCU failsafes. A 2D scan cannot observe all obstacles above or below its plane; roll and pitch can make a planar interpretation inaccurate. This reconstruction does not flatten measured odometry or invent an altitude controller.
+Nav2 is a planar navigation framework. A UAV integration must separately handle takeoff, landing, altitude control, attitude limits, flight mode, pilot override and FCU failsafes. A 2D scan cannot observe all obstacles above or below its plane; roll and pitch can make a planar interpretation inaccurate. The support package preserves 3D odometry and does not implement altitude control.
 
-## Changes from the supplied notes
+## Implementation decisions
 
 1. The original notes enable MAVROS TF and also run `odom_to_tf.py`. Use only the reconstructed broadcaster and disable MAVROS TF for this edge, or disable this broadcaster if MAVROS owns the edge.
 2. The zero LiDAR mounting transform is retained only in the archive. The new setup requires a measured transform.
 3. Serial access uses the normal device group instead of `chmod 666`.
 4. The new goal relay submits a `NavigateToPose` action. It is not a recovered copy of the manuscript's `/goal_pose` republisher.
 5. Safety is a heartbeat plus command gating on a test topic. It is not a certified emergency stop, a flight termination system or a substitute for autopilot failsafes.
-6. Configurations are generated from the installed packages to avoid pretending guessed values were the tested settings. Generated Nav2 defaults still require controller, footprint and costmap review.
+6. Configurations are generated from installed package defaults; the original tuned settings remain pending. Generated Nav2 defaults still require controller, footprint and costmap review.
 
 ## Proposed extensions
 

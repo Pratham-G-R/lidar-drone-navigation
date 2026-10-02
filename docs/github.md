@@ -2,7 +2,7 @@
 
 Repository: https://github.com/Pratham-G-R/lidar-drone-navigation
 
-The user selected this public repository for the initial project upload on 2026-10-02. It contains the supplied media and source material, reconstructed support code and documentation. The user recalls manual flight and plans to add the original code, configuration and experimental records later.
+This repository contains project media, research notes, reconstructed support code and documentation. Original code, tuned configurations and experimental records will be added when recovered. Field footage is documented as manual flight based on the maintainer's recollection.
 
 ## Add the original implementation later
 
@@ -21,4 +21,4 @@ python3 -m compileall -q lidar_drone launch tools
 
 The CI workflow checks only Python logic and syntax. Record ROS/Jazzy integration and vehicle validation separately. Confirm author details and license selection before representing this as a licensed open-source release.
 
-Original photos, video and the manuscript remain preserved. None of the media is labelled proof of autonomous flight.
+Keep original media intact and identify each recording by session and flight mode. The manuscript remains an unfinished draft until its references, captions and template remnants are corrected.

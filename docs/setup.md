@@ -1,6 +1,6 @@
 # Setup and operation
 
-These instructions assemble a bench reconstruction on a ROS 2 Jazzy machine. They have not been executed on the supplied aircraft. Use the project's existing ROS installation if available and record its versions before changing packages.
+These instructions assemble a bench reconstruction on a ROS 2 Jazzy machine. ROS integration and aircraft validation remain pending. Use the project's existing ROS installation if available and record its versions before changing packages.
 
 ## 1. Dependencies and workspace
 
@@ -30,7 +30,7 @@ source install/setup.bash
 export RMW_IMPLEMENTATION=rmw_fastrtps_cpp
 ```
 
-Source ROS and the workspace in every terminal. The package metadata currently contains an explicit placeholder maintainer contact and no selected license; replace these once confirmed.
+Source ROS and the workspace in every terminal. The package maintainer is Pratham; project licensing remains pending.
 
 ## 2. Device identity and permissions
 
@@ -135,7 +135,7 @@ ros2 action list -t
 
 Connect Foxglove to the Pi's configured bridge endpoint on a trusted network. Add `/scan`, `/map`, `/plan` and the costmap topics, using `map` as the fixed frame. Send a finite `PoseStamped` goal in `map` on `/move_base_simple/goal`, or use a Nav2 action client directly. For a yaw-only quaternion, use `z = sin(yaw/2)` and `w = cos(yaw/2)`.
 
-Monitor `/lidar_drone/gate_status` and `/lidar_drone/cmd_vel_checked`. The vehicle will not execute these commands because no autopilot adapter is supplied. A stationary bench robot may time out Nav2 progress checking after a goal; that is not proof of a planner failure.
+Monitor `/lidar_drone/gate_status` and `/lidar_drone/cmd_vel_checked`. The vehicle will not execute these commands because no autopilot adapter is included. A stationary bench robot may time out Nav2 progress checking after a goal; that is not proof of a planner failure.
 
 ## 8. Record and export
 

@@ -1,6 +1,6 @@
 # Primary technical references
 
-Official project documentation consulted during preparation on 2026-10-02. Online main/rolling pages can change; confirm behavior against the versions installed on the Pi.
+Technical reference links reviewed on 2026-10-02. Online main/rolling pages can change; confirm behavior against the versions installed on the Pi.
 
 | Reference | Why it matters |
 | --- | --- |

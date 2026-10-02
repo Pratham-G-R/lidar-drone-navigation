@@ -1,19 +1,19 @@
 source_filename,repository_path,bytes,sha256,provenance
-Stupid-Linux-GPS-only.txt,source_material/Stupid-Linux-GPS-only.txt,1403,bf6896a54a7d2236a9a799f6cc2fea5cbe2c8bdc6f506dfc5b79d21be8a4d9d1,user supplied; unchanged bytes
-IMG-20261001-WA0036.jpg,assets/photos/IMG-20261001-WA0036.jpg,74738,6fda4b996acac5ef7a04d239290f970c59012fac8780d59d5a264f6117b8cde6,user supplied; unchanged bytes
-IMG-20261001-WA0035.jpg,assets/photos/IMG-20261001-WA0035.jpg,85144,38a12edd75d34a9b455d8a54a399e45c8391659b6e7648edd0f3461f7a44693b,user supplied; unchanged bytes
-IMG-20261001-WA0039.jpg,assets/photos/IMG-20261001-WA0039.jpg,2201892,bfdabaed58f132c3bce5306e7d447835c086cdf423f6954534d115b7023c7fba,user supplied; unchanged bytes
-IMG-20261001-WA0033.jpg,assets/photos/IMG-20261001-WA0033.jpg,4564380,f4e574a3e33a44f96cd8f43850f54af594f7b8a4b1420dd4f427b20a79175cec,user supplied; unchanged bytes
-IMG-20261001-WA0030.jpg,assets/photos/IMG-20261001-WA0030.jpg,2388707,712270db1473ed935572482362fec0213b31bdb247825ae9d3d1087948590d34,user supplied; unchanged bytes
-IMG-20261001-WA0032.jpg,assets/photos/IMG-20261001-WA0032.jpg,4314326,6abe2f1bf65c8a0e48c3cbb8cd4daa1f29b89f378418a1170066c2a1fe30db5c,user supplied; unchanged bytes
-IMG-20261001-WA0041.jpg,assets/photos/IMG-20261001-WA0041.jpg,7728611,48ac0537f10ce32b8b56222d67df6cc7bf2c97041c929991a331fdb82e62e2ad,user supplied; unchanged bytes
-Lidar-drone-paper-1.docm,source_material/Lidar-drone-paper-1.docm,110138,430c8c198e49ea6708d34c80608b5e3980d53303b4e5386332986fd94c0698ff,user supplied; unchanged bytes
-IMG-20261001-WA0029.jpg,assets/photos/IMG-20261001-WA0029.jpg,1939947,aeef04480f6b6a52454176af72aaefd57ae6c05fa13367d89703a3b36aec13c4,user supplied; unchanged bytes
-IMG-20261001-WA0027.jpg,assets/photos/IMG-20261001-WA0027.jpg,2636725,5b2c1e74578c3c7cf237ae40006439b5be08b337c7888215d5317eb88a8d43d6,user supplied; unchanged bytes
-IMG-20261001-WA0020.jpg,assets/photos/IMG-20261001-WA0020.jpg,83392,d4996e5fc146ac6e5756c76397a052e57ee9e795d550f037deb31d2948da59dc,user supplied; unchanged bytes
-IMG-20261001-WA0018.jpg,assets/photos/IMG-20261001-WA0018.jpg,84242,a903327e0c7a0440f6644fd1322b89bdfce37b98c892e684cc92a0517075b9b1,user supplied; unchanged bytes
-IMG-20261001-WA0019.jpg,assets/photos/IMG-20261001-WA0019.jpg,185304,de5df23c6592d8571a4b8e8cda75fb0d44e518a099c1fb71cdd1f1b8c87ec4ac,user supplied; unchanged bytes
-IMG-20261001-WA0028.jpg,assets/photos/IMG-20261001-WA0028.jpg,2318560,837e620b9fc835646a03da1ef09f8d8e4b49fe16a9e1c7c3a9f81bbd0e838e71,user supplied; unchanged bytes
-VID-20261001-WA0037.mp4,assets/videos/VID-20261001-WA0037.mp4,9712687,1106de2be25c20b77f4b9fde56afd8a1188fca6f7e717ef5743097864d471683,user supplied; unchanged bytes
-VID-20261001-WA0031.mp4,assets/videos/VID-20261001-WA0031.mp4,22800439,3df868b56ba2776e187f15962e7c6d83efa068dda207a2757298149d554b76f6,user supplied; unchanged bytes
-VID-20261001-WA0038.mp4,assets/videos/VID-20261001-WA0038.mp4,15156356,515a1154282cbd3583b5901a0d6302c9ad189a8ecbbcefee92d389430dff8f26,user supplied; unchanged bytes
+Stupid-Linux-GPS-only.txt,source_material/Stupid-Linux-GPS-only.txt,1403,bf6896a54a7d2236a9a799f6cc2fea5cbe2c8bdc6f506dfc5b79d21be8a4d9d1,original project file; unchanged bytes
+IMG-20261001-WA0036.jpg,assets/photos/IMG-20261001-WA0036.jpg,74738,6fda4b996acac5ef7a04d239290f970c59012fac8780d59d5a264f6117b8cde6,original project file; unchanged bytes
+IMG-20261001-WA0035.jpg,assets/photos/IMG-20261001-WA0035.jpg,85144,38a12edd75d34a9b455d8a54a399e45c8391659b6e7648edd0f3461f7a44693b,original project file; unchanged bytes
+IMG-20261001-WA0039.jpg,assets/photos/IMG-20261001-WA0039.jpg,2201892,bfdabaed58f132c3bce5306e7d447835c086cdf423f6954534d115b7023c7fba,original project file; unchanged bytes
+IMG-20261001-WA0033.jpg,assets/photos/IMG-20261001-WA0033.jpg,4564380,f4e574a3e33a44f96cd8f43850f54af594f7b8a4b1420dd4f427b20a79175cec,original project file; unchanged bytes
+IMG-20261001-WA0030.jpg,assets/photos/IMG-20261001-WA0030.jpg,2388707,712270db1473ed935572482362fec0213b31bdb247825ae9d3d1087948590d34,original project file; unchanged bytes
+IMG-20261001-WA0032.jpg,assets/photos/IMG-20261001-WA0032.jpg,4314326,6abe2f1bf65c8a0e48c3cbb8cd4daa1f29b89f378418a1170066c2a1fe30db5c,original project file; unchanged bytes
+IMG-20261001-WA0041.jpg,assets/photos/IMG-20261001-WA0041.jpg,7728611,48ac0537f10ce32b8b56222d67df6cc7bf2c97041c929991a331fdb82e62e2ad,original project file; unchanged bytes
+Lidar-drone-paper-1.docm,source_material/DRAFT-Lidar-drone-paper.docm,110138,430c8c198e49ea6708d34c80608b5e3980d53303b4e5386332986fd94c0698ff,original project file; unchanged bytes
+IMG-20261001-WA0029.jpg,assets/photos/IMG-20261001-WA0029.jpg,1939947,aeef04480f6b6a52454176af72aaefd57ae6c05fa13367d89703a3b36aec13c4,original project file; unchanged bytes
+IMG-20261001-WA0027.jpg,assets/photos/IMG-20261001-WA0027.jpg,2636725,5b2c1e74578c3c7cf237ae40006439b5be08b337c7888215d5317eb88a8d43d6,original project file; unchanged bytes
+IMG-20261001-WA0020.jpg,assets/photos/IMG-20261001-WA0020.jpg,83392,d4996e5fc146ac6e5756c76397a052e57ee9e795d550f037deb31d2948da59dc,original project file; unchanged bytes
+IMG-20261001-WA0018.jpg,assets/photos/IMG-20261001-WA0018.jpg,84242,a903327e0c7a0440f6644fd1322b89bdfce37b98c892e684cc92a0517075b9b1,original project file; unchanged bytes
+IMG-20261001-WA0019.jpg,assets/photos/IMG-20261001-WA0019.jpg,185304,de5df23c6592d8571a4b8e8cda75fb0d44e518a099c1fb71cdd1f1b8c87ec4ac,original project file; unchanged bytes
+IMG-20261001-WA0028.jpg,assets/photos/IMG-20261001-WA0028.jpg,2318560,837e620b9fc835646a03da1ef09f8d8e4b49fe16a9e1c7c3a9f81bbd0e838e71,original project file; unchanged bytes
+VID-20261001-WA0037.mp4,assets/videos/VID-20261001-WA0037.mp4,9712687,1106de2be25c20b77f4b9fde56afd8a1188fca6f7e717ef5743097864d471683,original project file; unchanged bytes
+VID-20261001-WA0031.mp4,assets/videos/VID-20261001-WA0031.mp4,22800439,3df868b56ba2776e187f15962e7c6d83efa068dda207a2757298149d554b76f6,original project file; unchanged bytes
+VID-20261001-WA0038.mp4,assets/videos/VID-20261001-WA0038.mp4,15156356,515a1154282cbd3583b5901a0d6302c9ad189a8ecbbcefee92d389430dff8f26,original project file; unchanged bytes

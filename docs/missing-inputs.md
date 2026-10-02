@@ -1,6 +1,6 @@
-# Inputs needed from the project team
+# Pending project work
 
-As of 2026-10-02, the user does not have the original implementation/configuration and experimental logs available and plans to add them manually later. Publication can proceed with these gaps documented. The user recalls manual flight; no autonomous-flight claim is made.
+The original implementation, tuned configurations and experimental logs are not yet archived in this repository. They will be added when recovered. Field flight is understood to have been manual, based on the maintainer's recollection; exact per-clip mode confirmation awaits flight logs.
 
 ## Essential for reproducing the original system
 
@@ -16,13 +16,12 @@ As of 2026-10-02, the user does not have the original implementation/configurati
 - Original ROS bags (`metadata.yaml` plus `.db3` or `.mcap` files), FCU `.BIN` logs or telemetry `.tlog` files.
 - Exported `.pgm`/`.yaml` maps and any serialized SLAM pose graph.
 - Trial dates, environment dimensions, target coordinates, flight/control mode, manual intervention records and pass/fail criteria.
-- Per-clip log confirmation of the user-recalled manual flight and the mapping/planning state.
+- Per-clip log confirmation of the recalled manual flight and the mapping/planning state.
 - Any measured accuracy, loop rate, processing load, latency, clearance, goal error or repeated-trial records.
 
 ## Repository and credit details
 
-- Destination confirmed: https://github.com/Pratham-G-R/lidar-drone-navigation (public at initial upload).
-- Confirm title, author order, affiliations, contributor roles and a maintainer contact.
+- Confirm title, author order, affiliations and contributor roles with the team.
 - Select a code license and clarify reuse rights for shared team photographs/video/manuscript.
 
-The package can be reviewed now. These missing inputs are explicitly tracked rather than silently filled with guessed experiment settings or fabricated measurements.
+Update the setup and validation records as each item is completed. Keep recovered experiment configurations distinguishable from the current generated bench templates.

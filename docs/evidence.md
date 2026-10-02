@@ -30,13 +30,13 @@ Inspection used sampled frames at 10%, 50% and 90% of each video's duration. Aud
 | [VID-20261001-WA0031.mp4](../assets/videos/VID-20261001-WA0031.mp4) | 55.699 s | Laptop visualization and outdoor field views |
 | [VID-20261001-WA0038.mp4](../assets/videos/VID-20261001-WA0038.mp4) | 38.034 s | Drone at multiple apparent positions above the field |
 
-On 2026-10-02, the user clarified that the flight was manual as far as they recall. These clips are therefore catalogued as manual-flight project evidence, with exact per-clip mode pending logs. They do not establish autonomous waypoint execution, avoidance response time or repeated-trial success. Original ROS bags, map exports and flight logs will be added by the user when available.
+Field flight is understood to have been manual, based on the maintainer's recollection recorded on 2026-10-02. Exact per-clip mode confirmation awaits flight logs. The recordings document field activity; autonomous waypoint execution, avoidance response time and repeated-trial success remain unverified. ROS bags, map exports and flight logs will be added when recovered.
 
 ## Written sources
 
 - [Original terminal notes](../source_material/Stupid-Linux-GPS-only.txt): launch commands, serial settings, script names and absolute YAML paths. No Python implementations or YAML content are included.
-- [Original manuscript](../source_material/Lidar-drone-paper-1.docm): supplied draft, preserved unchanged. No macros were executed. It includes template references and an unfinished figure caption.
-- [Extracted manuscript text](../source_material/manuscript-extracted.txt): search-friendly text extraction; layout and images omitted.
+- [Draft manuscript](../source_material/DRAFT-Lidar-drone-paper.docm): unfinished research draft with example references and an incomplete figure caption. See the [draft status and correction checklist](../source_material/README.md). Document bytes are preserved unchanged.
+- [Extracted draft text](../source_material/manuscript-extracted.txt): search-friendly text extraction; layout and images omitted.
 
 ## Claims and evidence gaps
 
@@ -45,10 +45,10 @@ On 2026-10-02, the user clarified that the flight was manual as far as they reca
 | LiDAR and companion computer integrated on a drone | Visually supported | Wiring, component and mounting records for reproducibility |
 | GPS-assisted map generation | Reported; display evidence is qualitative | Bag with scans, odometry, TF and map; exported map |
 | Costmap inflation and global planning | Reported; overlays visible without verified topic identity | `/plan`, costmaps, goal and parameter files from the same run |
-| Autonomous dynamic obstacle avoidance | Not established by the attachments | Synchronized scan/command/FCU logs, obstacle protocol and intervention record |
+| Autonomous dynamic obstacle avoidance | Not established by the current records | Synchronized scan/command/FCU logs, obstacle protocol and intervention record |
 | HDOP above about 1.5 causes observed drift artifacts | Manuscript observation only | Synchronized GPS quality, odometry and map logs |
 | Odometry below about 5 Hz degrades yaw mapping | Manuscript observation only | Controlled rate/turn experiments and recorded streams |
 | GPS-denied RF2O operation | Proposed | Implementation, estimator integration and validation |
 | LiDAR-free multi-drone use of shared maps | Proposed | Localization/alignment method and live obstacle strategy |
 
-The manuscript's use of “safe” and “collision-free” is not converted into an independently validated guarantee. No numerical performance table has been fabricated from its narrative.
+The draft's claims about safety and collision avoidance require validation against recorded experiments. Quantitative performance results are pending those measurements.

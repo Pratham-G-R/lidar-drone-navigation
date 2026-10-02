@@ -2,9 +2,9 @@
 
 ## What data exists
 
-`data/source_manifest.csv` records the supplied files with byte counts and SHA-256 digests. Photos and video are real project assets. `data/media_metadata.json` records image dimensions, video duration and technical metadata extracted from those files. These values describe files, not system performance.
+`data/source_manifest.csv` records the original project files with byte counts and SHA-256 digests. Photos and video are real project assets. `data/media_metadata.json` records image dimensions, video duration and technical metadata extracted from those files. These values describe files, not system performance.
 
-No measured trajectory CSV, ROS bag, FCU log, map export, timing trace or controlled test result was attached. `data/raw/` and `data/maps/` therefore contain documentation only. Artificial numerical examples live only inside tests and are not experiment results.
+Measured trajectory CSVs, ROS bags, FCU logs, map exports, timing traces and controlled test results are not yet archived. `data/raw/` and `data/maps/` therefore contain documentation only. Artificial numerical examples live only inside tests and are not experiment results.
 
 ## Capture a reproducible session
 
@@ -43,7 +43,7 @@ Use the actual node names from `ros2 node list`. Record FCU logs separately. The
 | `y_m` | m | Odometry y coordinate |
 | `z_m` | m | Odometry z coordinate |
 
-Export actual pose samples from `/mavros/local_position/odom` into this schema. The repository does not pretend that a screenshot can supply these samples. A rosbag-to-CSV exporter can be added once the actual storage format and message stream are provided.
+Export actual pose samples from `/mavros/local_position/odom` into this schema. Screenshots do not contain the underlying pose samples. A rosbag-to-CSV exporter can be added once the actual storage format and message stream are provided.
 
 ```bash
 python3 tools/analyze_odometry.py data/raw/trajectory.csv --output data/raw/trajectory_summary.json
@@ -55,4 +55,4 @@ The analysis rejects empty data, nonfinite values and repeated or decreasing tim
 
 Map accuracy requires a surveyed reference or measured landmarks. Goal error requires a reference endpoint in a registered coordinate frame. Replanning latency requires synchronized obstacle-detection and replacement-plan timestamps. Obstacle clearance requires measured geometry and a defined vehicle envelope. Success rate requires a stated trial count, route, failure definition and all outcomes, including aborted trials. CPU/RAM values require a timestamped monitor log and specified workload.
 
-Do not fit a performance chart to manuscript assertions or approximate screen readings. Add quantitative tables only after the corresponding logs and measurement method are available.
+Base performance charts and quantitative tables on recorded samples, with the corresponding logs and measurement method available.
